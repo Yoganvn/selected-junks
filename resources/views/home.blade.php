@@ -56,33 +56,33 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
             @foreach($products as $product)
             <div class="group relative">
-                <div class="aspect-square w-full overflow-hidden rounded-2xl bg-gray-100 relative mb-4">
-                    
-                    @if($product->status == 'sold')
-                        <div class="absolute top-3 right-3 bg-black text-white text-[10px] font-bold px-2 py-1 uppercase tracking-wider z-10">
-                            SOLD OUT
-                        </div>
-                    @else
-                         <div class="absolute top-3 left-3 bg-white/80 backdrop-blur-sm px-2 py-1 text-[10px] font-semibold tracking-wide border border-gray-100 rounded-md">
-                            {{ $product->condition }}
-                        </div>
-                    @endif
+                <div class="aspect-square w-full overflow-hidden rounded-2xl bg-white relative mb-4 border border-gray-100 flex items-center justify-center p-4">
+    
+    @if($product->status == 'sold')
+        <div class="absolute top-3 right-3 bg-black text-white text-[10px] font-bold px-2 py-1 uppercase tracking-wider z-10">
+            SOLD OUT
+        </div>
+    @else
+         <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 text-[10px] font-semibold tracking-wide border border-gray-200 rounded-md shadow-sm z-10">
+            {{ $product->condition }}
+        </div>
+    @endif
 
-                    <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/400x400?text=No+Image' }}" 
-                         alt="{{ $product->name }}" 
-                         class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-in-out">
-                    
-                    <div class="absolute bottom-4 left-0 right-0 px-4 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-20">
-                        @if($product->status != 'sold')
-                        <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="w-full bg-black text-white py-3 rounded-xl text-sm font-medium shadow-xl hover:bg-gray-800 transition transform active:scale-95">
-                                Add to Cart
-                            </button>
-                        </form>
-                        @endif
-                    </div>
-                </div>
+    <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/400x400?text=No+Image' }}" 
+         alt="{{ $product->name }}" 
+         class="h-full w-full object-contain object-center group-hover:scale-110 transition-transform duration-500 ease-in-out">
+    
+    <div class="absolute bottom-4 left-0 right-0 px-4 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-20 translate-y-2 group-hover:translate-y-0">
+        @if($product->status != 'sold')
+        <form action="{{ route('cart.add', $product->id) }}" method="POST">
+            @csrf
+            <button type="submit" class="w-full bg-black text-white py-3 rounded-xl text-sm font-bold shadow-xl hover:bg-gray-800 transition transform active:scale-95">
+                + Add
+            </button>
+        </form>
+        @endif
+    </div>
+</div>
 
                 <div class="flex justify-between items-start">
                     <div>

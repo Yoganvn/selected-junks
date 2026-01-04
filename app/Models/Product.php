@@ -11,8 +11,7 @@ class Product extends Model
 
     protected $fillable = [
         'name', 'slug', 'brand', 'size', 'price', 
-        'condition', 'description', 'is_fullset', 
-        'status', 'image','status'
+        'condition', 'description', 'is_fullset', 'status', 'image'
     ];
 
     // Agar tipe data is_fullset otomatis jadi true/false, bukan 1/0

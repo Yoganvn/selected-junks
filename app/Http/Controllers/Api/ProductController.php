@@ -4,70 +4,48 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Http\Resources\ProductResource;
-use App\Http\Requests\StoreProductRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+// PENTING: Jangan ada "Route::..." di file ini!
 
 class ProductController extends Controller
 {
-    // GET: Ambil semua data
     public function index()
     {
-        $products = Product::latest()->get();
-        return ProductResource::collection($products);
+        return Product::latest()->get();
     }
 
-    // POST: Simpan data baru
-    // Perhatikan kita pakai 'StoreProductRequest' bukan 'Request' biasa
-    public function store(StoreProductRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-        
-        // Handle Upload Gambar
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('products', 'public');
-        }
+        // Validasi manual jika tidak pakai FormRequest
+        $request->validate([
+            'name' => 'required',
+            'brand' => 'required',
+            'price' => 'required',
+            'image' => 'required|image'
+        ]);
 
-        // Auto Generate Slug
-        $data['slug'] = Str::slug($request->name) . '-' . time();
+        $path = $request->file('image')->store('products', 'public');
 
-        $product = Product::create($data);
+        $product = Product::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name) . '-' . time(),
+            'brand' => $request->brand,
+            'price' => $request->price,
+            'size' => $request->size ?? 0,
+            'condition' => $request->condition ?? 'Good',
+            'description' => $request->description,
+            'image' => $path,
+            'status' => 'available',
+            'is_fullset' => 1
+        ]);
 
-        return response()->json([
-            'message' => 'Product created successfully',
-            'data' => new ProductResource($product)
-        ], 201);
+        return response()->json(['message' => 'Success', 'data' => $product], 201);
     }
 
-    // GET: Ambil detail 1 sepatu
     public function show($id)
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
-        }
-
-        return new ProductResource($product);
-    }
-
-    // DELETE: Hapus data
-    public function destroy($id)
-    {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
-        }
-
-        // Hapus gambar lama jika ada biar server gak penuh
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
-        }
-
-        $product->delete();
-
-        return response()->json(['message' => 'Product deleted successfully'], 200);
+        return Product::find($id);
     }
 }

@@ -10,22 +10,23 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
         
-        <div class="relative group">
-            <div class="aspect-square bg-gray-100 rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-                @if($product->status == 'sold')
-                    <div class="absolute top-4 left-4 bg-black text-white px-3 py-1 text-xs font-bold uppercase tracking-wider z-10">
-                        SOLD OUT
-                    </div>
-                @else
-                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-black px-3 py-1 text-xs font-bold uppercase tracking-wider z-10 border border-gray-200 rounded">
-                        {{ $product->condition }}
-                    </div>
-                @endif
-
-                <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/600' }}" 
-                     class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700 ease-in-out">
+<div class="relative group">
+    <div class="aspect-square bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm relative flex items-center justify-center p-6">
+        
+        @if($product->status == 'sold')
+            <div class="absolute top-4 left-4 bg-black text-white px-3 py-1 text-xs font-bold uppercase tracking-wider z-10">
+                SOLD OUT
             </div>
-        </div>
+        @else
+            <div class="absolute top-4 left-4 bg-gray-100 text-black px-3 py-1 text-xs font-bold uppercase tracking-wider z-10 border border-gray-200 rounded">
+                {{ $product->condition }}
+            </div>
+        @endif
+
+        <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/600' }}" 
+             class="w-full h-full object-contain object-center transition duration-700 ease-in-out group-hover:scale-105">
+    </div>
+</div>
 
         <div class="flex flex-col justify-center">
             

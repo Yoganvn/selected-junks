@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-white text-black font-sans antialiased">
@@ -31,7 +33,6 @@
                     
                     <a href="{{ route('cart.index') }}" class="relative text-gray-900 hover:text-gray-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                        
                         <span class="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
                             {{ Auth::check() && Auth::user()->cart ? Auth::user()->cart->items->count() : 0 }}
                         </span>
@@ -39,13 +40,43 @@
 
                     <div class="hidden md:flex items-center gap-4 text-sm font-medium border-l border-gray-200 pl-6">
                         @auth
-                            <div class="flex items-center gap-4">
-                                <span class="text-gray-500">Hi, {{ Auth::user()->name }}</span>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="hover:text-red-600 transition">Log out</button>
-                                </form>
+                            <div class="relative" x-data="{ open: false }">
+                                
+                                <button @click="open = !open" class="flex items-center gap-2 text-gray-900 hover:text-gray-600 focus:outline-none transition">
+                                    <span>Hi, {{ Auth::user()->name }}</span>
+                                    <svg class="w-4 h-4 transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="open" 
+                                     @click.outside="open = false"
+                                     x-transition:enter="transition ease-out duration-100"
+                                     x-transition:enter-start="opacity-0 scale-95"
+                                     x-transition:enter-end="opacity-100 scale-100"
+                                     x-transition:leave="transition ease-in duration-75"
+                                     x-transition:leave-start="opacity-100 scale-100"
+                                     x-transition:leave-end="opacity-0 scale-95"
+                                     class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 origin-top-right"
+                                     style="display: none;">
+                                    
+                                    <a href="{{ route('products.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
+                                        + Jual Produk
+                                    </a>
+
+                                    <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
+                                        Profile Saya
+                                    </a>
+
+                                    <div class="border-t border-gray-100 my-1"></div>
+
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">
+                                            Log Out
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
+
                         @else
                             <a href="{{ route('login') }}" class="hover:text-gray-600 transition">Log in</a>
                             <a href="{{ route('register') }}" class="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition">Register</a>
@@ -58,7 +89,6 @@
     </header>
 
     <main class="pt-20 min-h-screen relative">
-        
         @if(session('success'))
             <div class="fixed top-24 right-4 z-50 animate-bounce">
                 <div class="bg-black text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3">
@@ -76,6 +106,7 @@
                 </div>
             </div>
         @endif
+
         @yield('content')
     </main>
 
