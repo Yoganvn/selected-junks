@@ -59,7 +59,15 @@
                                      style="display: none;">
                                     
                                     <a href="{{ route('products.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
-                                        + Jual Produk
+                                        Jual Produk
+                                    </a>
+
+                                    <a href="{{ route('products.manage') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition font-medium">
+                                        Kelola Produk Saya
+                                    </a>
+
+                                    <a href="{{ route('wishlist.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition font-medium">
+                                        Wishlist Saya 
                                     </a>
 
                                     <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">

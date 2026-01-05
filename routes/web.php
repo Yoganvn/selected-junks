@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController; // Pastikan ini mengarah ke WEB Controller
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,6 +52,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/my-products', [ProductController::class, 'manage'])->name('products.manage'); // Halaman Tabel
+    Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('products.edit'); // Form Edit
+    Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('products.update'); // Proses Simpan Edit
+    Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy'); // Proses Hapus
+
+    Route::get('/my-wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/toggle/{id}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 });
 
 // Memuat rute auth bawaan Breeze (Login, Register, Logout)

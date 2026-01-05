@@ -50,4 +50,10 @@ public function cart()
             'password' => 'hashed',
         ];
     }
+
+    // Relasi User ke Produk yang disukai
+    public function wishlists()
+    {
+        return $this->belongsToMany(Product::class, 'wishlists', 'user_id', 'product_id')->withTimestamps();
+    }
 }
