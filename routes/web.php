@@ -83,5 +83,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 
-// Memuat rute auth bawaan Breeze (Login, Register, Logout)
-require __DIR__.'/auth.php';
+// Memuat rute auth bawaan Breeze (Login, Register, Logou)
+ require __DIR__.'/auth.php';
