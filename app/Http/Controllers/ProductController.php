@@ -10,6 +10,25 @@ use App\Http\Controllers\Api\WishlistController;
 
 class ProductController extends Controller
 {
+    /**
+     * HALAMAN DEPAN (HOMEPAGE)
+     * Menampilkan semua produk di halaman utama.
+     */
+    public function index()
+    {
+        // 1. Ambil semua produk (Urutkan dari yang terbaru)
+        $products = Product::latest()->get();
+
+        // 2. Tampilkan View
+        // Kita cek dulu, kalau ada file 'home.blade.php' pakai itu.
+        // Kalau tidak ada, pakai 'welcome.blade.php'.
+        if (view()->exists('home')) {
+            return view('home', compact('products'));
+        }
+        
+        return view('welcome', compact('products'));
+    }
+
     // --- FITUR JUAL PRODUK ---
 
     public function create()

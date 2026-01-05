@@ -88,7 +88,7 @@
                     <div>
                         <p class="text-xs text-gray-500 mb-1 font-medium">{{ $product->brand }}</p>
                         <h3 class="text-sm font-bold text-gray-900 leading-tight">
-                            <a href="{{ route('product.detail', $product->id) }}">
+                            <a href="{{ route('products.show', $product->id) }}">
                                 <span aria-hidden="true" class="absolute inset-0"></span>
                                 {{ $product->name }}
                             </a>

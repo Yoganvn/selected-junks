@@ -58,9 +58,16 @@
                                      class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 origin-top-right"
                                      style="display: none;">
                                     
-                                    <a href="{{ route('products.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
-                                        Jual Produk
-                                    </a>
+@if(Auth::user()->role === 'admin')
+                <div class="bg-red-50 border-b border-red-100">
+                    <a href="{{ route('admin.users.index') }}" class="block px-4 py-3 text-sm text-red-700 hover:bg-red-100 font-bold">
+                        Dashboard Admin
+                    </a>
+                </div>
+            @endif
+            <a href="{{ route('products.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                Jual Produk
+            </a>
 
                                     <a href="{{ route('products.manage') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition font-medium">
                                         Kelola Produk Saya
